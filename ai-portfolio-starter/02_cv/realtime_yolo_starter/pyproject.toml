@@ -1,0 +1,14 @@
+[project]
+name = "realtime_yolo_starter"
+version = "0.1.0"
+description = "Realtime object detection starter project (Ultralytics YOLO)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pyyaml>=6",
+  "opencv-python>=4.8",
+  "ultralytics>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

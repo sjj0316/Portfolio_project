@@ -1,0 +1,5 @@
+model: yolo11n.pt
+conf: 0.25
+imgsz: 640
+show: false
+save: true
