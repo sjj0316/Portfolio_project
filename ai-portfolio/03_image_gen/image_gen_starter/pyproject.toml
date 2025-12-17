@@ -30,3 +30,6 @@ diffusers = ["torch>=2.4.0", "diffusers>=0.33.0", "transformers>=4.44.0", "accel
 
     [tool.ruff]
     line-length = 100
+
+[tool.uv]
+package = true

@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  smoke_lint_test:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: nlp
+            path: ai-portfolio/01_nlp/nlp_sentiment_starter
+          - name: cv
+            path: ai-portfolio/02_cv/realtime_yolo_starter
+          - name: image_gen
+            path: ai-portfolio/03_image_gen/image_gen_starter
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Sync (dev)
+        working-directory: ${{ matrix.path }}
+        run: uv sync --extra dev
+
+      - name: Smoke
+        working-directory: ${{ matrix.path }}
+        run: uv run smoke --profile local
+
+      - name: Lint
+        working-directory: ${{ matrix.path }}
+        run: uv run lint
+
+      - name: Test
+        working-directory: ${{ matrix.path }}
+        run: uv run test
+
+      - name: Train/Eval (NLP base)
+        if: ${{ matrix.name == 'nlp' }}
+        working-directory: ${{ matrix.path }}
+        run: |
+          uv run train --profile local
+          uv run eval --profile local
+
+  notify_codex_on_fail:
+    needs: [smoke_lint_test]
+    if: ${{ failure() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body =
+              "@codex CI is failing for this PR. Please fix it.\n\n" +
+              "CI run: " + runUrl + "\n\n" +
+              "Constraints:\n" +
+              "- Use uv only (no pip/conda/poetry).\n" +
+              "- Keep smoke lightweight (no heavy deps required for smoke).\n" +
+              "- Do not commit large artifacts (.venv/, data/, models/, outputs/, runs/, *.pt, *.bin, *.ckpt, *.safetensors).\n\n" +
+              "Acceptance:\n" +
+              "- uv sync --extra dev\n" +
+              "- uv run smoke --profile local\n" +
+              "- uv run lint\n" +
+              "- uv run test\n";
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body
+            });

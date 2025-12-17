@@ -20,3 +20,15 @@ Follow these rules strictly:
 ## Repo hygiene
 - Do NOT commit large files (datasets, model weights, outputs).
 - Keep configs in `configs/` and paths configurable via `--profile` / `PROFILE`.
+
+
+## What / Why
+- 
+
+## How to test (local)
+- [ ] `uv sync --extra dev`
+- [ ] `uv run smoke --profile local`
+- [ ] (If NLP training touched) `uv sync --extra ml` then `uv run train --profile local` and `uv run eval --profile local`
+
+## Codex review
+- [ ] Commented on this PR: `@codex review for correctness, Windows portability, uv usage, and CI readiness`

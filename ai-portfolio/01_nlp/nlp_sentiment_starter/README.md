@@ -1,3 +1,4 @@
+# NLP Sentiment Starter - Project Rules
 # NLP Sentiment Starter
 
     A small sentiment analysis starter with an English command contract for Codex and local execution.
@@ -11,6 +12,15 @@
     uv sync
     uv run smoke --profile local
     ```
+
+
+
+## Review guidelines
+- If changes touch training/eval logic, ensure:
+  - `uv sync --extra dev --extra ml`
+  - `uv run train --profile local`
+  - `uv run eval --profile local`
+- Keep lexicon fallback working when `--extra ml` is not installed.
 
 
 ### Optional extras

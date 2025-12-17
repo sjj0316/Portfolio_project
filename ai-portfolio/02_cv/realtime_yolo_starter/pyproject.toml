@@ -30,3 +30,6 @@ yolo = ["ultralytics>=8.3.0", "opencv-python>=4.10.0.84"]
 
     [tool.ruff]
     line-length = 100
+
+[tool.uv]
+package = true

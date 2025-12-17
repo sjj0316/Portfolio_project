@@ -1,0 +1,23 @@
+name: Codex Review (auto)
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+permissions:
+  issues: write
+
+jobs:
+  request_codex_review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = "@codex review for correctness, Windows portability, uv usage, and CI readiness.";
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body
+            });
