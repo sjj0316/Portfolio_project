@@ -1,14 +1,32 @@
 [project]
-name = "realtime_yolo_starter"
-version = "0.1.0"
-description = "Realtime object detection starter project (Ultralytics YOLO)."
-readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
-  "pyyaml>=6",
-  "opencv-python>=4.8",
-  "ultralytics>=8.0",
-]
+    name = "realtime-yolo-starter"
+    version = "0.1.0"
+    description = "Portfolio starter with Codex-friendly command contract (uv + pyproject scripts)."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = [
+      "pyyaml>=6.0.1",
+    ]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0"]
+yolo = ["ultralytics>=8.3.0", "opencv-python>=4.10.0.84"]
+
+    [project.scripts]
+    setup = "cv_app.cli:setup_cmd"
+    lint = "cv_app.cli:lint_cmd"
+    format = "cv_app.cli:format_cmd"
+    test = "cv_app.cli:test_cmd"
+    smoke = "cv_app.cli:smoke_cmd"
+    train = "cv_app.cli:train_cmd"
+    eval = "cv_app.cli:eval_cmd"
+    predict = "cv_app.cli:predict_cmd"
+    clean = "cv_app.cli:clean_cmd"
+
+    [tool.pytest.ini_options]
+    testpaths = ["tests"]
+    addopts = "-q"
+
+    [tool.ruff]
+    line-length = 100

@@ -1,5 +1,10 @@
-model: yolo11n.pt
-conf: 0.25
-imgsz: 640
-show: false
-save: true
+# Example Colab paths (edit to match your Drive mount).
+# data_dir: /content/drive/MyDrive/ai-data/<project>/data
+# models_dir: /content/drive/MyDrive/ai-data/<project>/models
+# outputs_dir: /content/drive/MyDrive/ai-data/<project>/outputs
+# reports_dir: /content/drive/MyDrive/ai-data/<project>/reports
+
+data_dir: data
+models_dir: models
+outputs_dir: outputs
+reports_dir: reports

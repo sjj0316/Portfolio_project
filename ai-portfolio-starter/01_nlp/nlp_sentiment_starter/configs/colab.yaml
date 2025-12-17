@@ -1,5 +1,10 @@
-model_id: distilbert-base-uncased-finetuned-sst-2-english
-device: 0
-sample_texts:
-  - "Colab에서 빠르게 실험해보고 싶어요."
-  - "속도가 느리면 배치를 줄이거나 모델을 바꾸면 됩니다."
+# Example Colab paths (edit to match your Drive mount).
+# data_dir: /content/drive/MyDrive/ai-data/<project>/data
+# models_dir: /content/drive/MyDrive/ai-data/<project>/models
+# outputs_dir: /content/drive/MyDrive/ai-data/<project>/outputs
+# reports_dir: /content/drive/MyDrive/ai-data/<project>/reports
+
+data_dir: data
+models_dir: models
+outputs_dir: outputs
+reports_dir: reports

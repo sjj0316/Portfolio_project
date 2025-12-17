@@ -1,5 +1,5 @@
-model: yolo11n.pt
-conf: 0.25
-imgsz: 640
-show: true
-save: true
+# Paths can be absolute or relative to project root.
+data_dir: data
+models_dir: models
+outputs_dir: outputs
+reports_dir: reports

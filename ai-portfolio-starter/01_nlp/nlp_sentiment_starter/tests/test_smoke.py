@@ -1,3 +1,5 @@
-def test_import():
-    import nlp_sentiment_starter
-    assert nlp_sentiment_starter is not None
+from nlp_app.cli import load_cfg
+
+def test_load_cfg_local():
+    cfg = load_cfg("local")
+    assert cfg.profile == "local"

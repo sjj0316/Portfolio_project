@@ -1,7 +1,5 @@
-model_id: distilbert-base-uncased-finetuned-sst-2-english
-# transformers pipeline device: -1=CPU, 0=첫번째 GPU
-device: -1
-sample_texts:
-  - "I love how fast uv makes environment setup."
-  - "This bug is frustrating, but I'll fix it."
-  - "The food was okay. Not amazing, not terrible."
+# Paths can be absolute or relative to project root.
+data_dir: data
+models_dir: models
+outputs_dir: outputs
+reports_dir: reports

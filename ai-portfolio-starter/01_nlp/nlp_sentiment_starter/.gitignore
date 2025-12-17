@@ -1,9 +1,12 @@
 # Python
 __pycache__/
 *.py[cod]
+*.so
 *.egg-info/
+.dist/
+build/
+.cache/
 .pytest_cache/
-.mypy_cache/
 .ruff_cache/
 
 # Environments
@@ -11,28 +14,19 @@ __pycache__/
 .env
 .env.*
 
-# Large artifacts (keep folder structure via .gitkeep)
-data/**
-!data/**/.gitkeep
-
-models/**
-!models/**/.gitkeep
-
-outputs/**
-!outputs/**/.gitkeep
-
-runs/**
-!runs/**/.gitkeep
-
-checkpoints/**
-!checkpoints/**/.gitkeep
-
-reports/figures/**
-!reports/figures/**/.gitkeep
+# Data / artifacts (keep big stuff out of git)
+data/
+models/
+outputs/
+runs/
+reports/figures/
+checkpoints/
 
 # Notebooks
 .ipynb_checkpoints/
 
-# OS
+# OS / editor
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/

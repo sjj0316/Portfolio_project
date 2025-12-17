@@ -1,18 +1,32 @@
 [project]
-name = "image_gen_starter"
-version = "0.1.0"
-description = "Text-to-image starter project (Diffusers)."
-readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
-  "pyyaml>=6",
-  "torch>=2.0",
-  "diffusers>=0.20",
-  "transformers>=4.0",
-  "accelerate>=0.20",
-  "safetensors>=0.4",
-  "pillow>=10",
-]
+    name = "image-gen-starter"
+    version = "0.1.0"
+    description = "Portfolio starter with Codex-friendly command contract (uv + pyproject scripts)."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = [
+      "pyyaml>=6.0.1",
+    ]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0"]
+diffusers = ["torch>=2.4.0", "diffusers>=0.33.0", "transformers>=4.44.0", "accelerate>=0.34.0", "safetensors>=0.4.5", "pillow>=10.4.0"]
+
+    [project.scripts]
+    setup = "gen_app.cli:setup_cmd"
+    lint = "gen_app.cli:lint_cmd"
+    format = "gen_app.cli:format_cmd"
+    test = "gen_app.cli:test_cmd"
+    smoke = "gen_app.cli:smoke_cmd"
+    train = "gen_app.cli:train_cmd"
+    eval = "gen_app.cli:eval_cmd"
+    predict = "gen_app.cli:predict_cmd"
+    clean = "gen_app.cli:clean_cmd"
+
+    [tool.pytest.ini_options]
+    testpaths = ["tests"]
+    addopts = "-q"
+
+    [tool.ruff]
+    line-length = 100

@@ -1,23 +1,45 @@
-# Image Generation: Tiny Diffusers Starter
+# Image Generation Starter
 
-최소 실행 목표: Diffusers로 가벼운 테스트용 모델을 받아서 txt2img 1장을 생성합니다.
-- 포트폴리오용으로는 구조/파이프라인/실험 재현성(설정 분리)을 보여주는 데 초점을 둡니다.
+    A tiny text-to-image starter using Diffusers (optional) with Codex-friendly English commands.
 
-## 로컬(Windows) - uv로 바로 실행
-```powershell
-cd image_gen_starter
-uv run python scripts\txt2img.py --profile local --prompt "a cute robot on a desk"
+    ## Quickstart (local)
+
+    1) Install uv (once on your machine).
+    2) From this project folder:
+
+    ```bash
+    uv sync
+    uv run smoke --profile local
+    ```
+
+
+### Optional extras
+- Diffusers + Torch (text-to-image):
+  ```bash
+  uv sync --extra diffusers
+  ```
+- Dev tools:
+  ```bash
+  uv sync --extra dev
+  ```
+
+    ## Run examples
+
+
+```bash
+# smoke (no diffusers required)
+uv run smoke --profile local
+
+# text-to-image (requires diffusers extra)
+uv run predict --profile local --prompt "a cute robot on a desk" --steps 2
+
+# choose a model id (default is a tiny testing pipeline)
+uv run predict --profile local --model hf-internal-testing/tiny-stable-diffusion-pipe --prompt "cat"
 ```
 
-## Colab - 빠른 실행(권장)
-```python
-!pip -q install diffusers transformers accelerate safetensors torch pyyaml
-!python scripts/txt2img.py --profile colab --prompt "a cozy room, warm lighting"
-```
+    ## Profiles (local vs colab)
+    - `--profile local|colab` (or env `PROFILE=local|colab`)
+    - Edit `configs/local.yaml` and `configs/colab.yaml` to match your paths.
 
-## 모델 교체(실사용 모델로)
-기본 모델은 테스트용 tiny 모델입니다(다운로드가 가벼움).
-`configs/*.yaml`의 `model_id`를 원하는 모델로 바꾸면 됩니다.
-
-## 출력
-- 생성 이미지는 `outputs/`에 저장됩니다.
+    ## Notes for Codex
+    - See `AGENTS.md` for the command contract and repo rules.
