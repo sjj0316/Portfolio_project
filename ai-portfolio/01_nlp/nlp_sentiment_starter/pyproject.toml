@@ -1,0 +1,36 @@
+[project]
+    name = "nlp-sentiment-starter"
+    version = "0.1.0"
+    description = "Portfolio starter with Codex-friendly command contract (uv + pyproject scripts)."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = [
+      "pyyaml>=6.0.1",
+    ]
+
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0"]
+ml = ["scikit-learn>=1.6.0"]
+transformers = ["torch>=2.4.0", "transformers>=4.44.0"]
+
+    [project.scripts]
+    setup = "nlp_app.cli:setup_cmd"
+    lint = "nlp_app.cli:lint_cmd"
+    format = "nlp_app.cli:format_cmd"
+    test = "nlp_app.cli:test_cmd"
+    smoke = "nlp_app.cli:smoke_cmd"
+    train = "nlp_app.cli:train_cmd"
+    eval = "nlp_app.cli:eval_cmd"
+    predict = "nlp_app.cli:predict_cmd"
+    clean = "nlp_app.cli:clean_cmd"
+
+    [tool.pytest.ini_options]
+    testpaths = ["tests"]
+    addopts = "-q"
+
+    [tool.ruff]
+    line-length = 100
+
+    [tool.uv]
+    package = true
