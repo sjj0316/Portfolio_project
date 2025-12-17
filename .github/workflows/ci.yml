@@ -18,10 +18,13 @@ jobs:
         include:
           - name: nlp
             path: ai-portfolio/01_nlp/nlp_sentiment_starter
+            extras: "dev --extra ml"
           - name: cv
             path: ai-portfolio/02_cv/realtime_yolo_starter
+            extras: "dev"
           - name: image_gen
             path: ai-portfolio/03_image_gen/image_gen_starter
+            extras: "dev"
 
     steps:
       - uses: actions/checkout@v5
@@ -38,7 +41,7 @@ jobs:
 
       - name: Sync (dev)
         working-directory: ${{ matrix.path }}
-        run: uv sync --extra dev
+        run: uv sync --extra ${{ matrix.extras }}
 
       - name: Smoke
         working-directory: ${{ matrix.path }}
