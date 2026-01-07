@@ -31,7 +31,7 @@
 uv run smoke --profile local
 
 # text-to-image (requires diffusers extra)
-uv run predict --profile local --prompt "a cute robot on a desk" --steps 2
+uv run predict --profile local --prompt "a cute robot on a desk" --steps 2 --no-safety-checker
 
 # choose a model id (default is a tiny testing pipeline)
 uv run predict --profile local --model hf-internal-testing/tiny-stable-diffusion-pipe --prompt "cat"

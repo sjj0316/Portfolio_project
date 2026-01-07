@@ -19,6 +19,7 @@ transformers = ["torch>=2.4.0", "transformers>=4.44.0"]
     lint = "nlp_app.cli:lint_cmd"
     format = "nlp_app.cli:format_cmd"
     test = "nlp_app.cli:test_cmd"
+    check = "nlp_app.cli:check_cmd"
     smoke = "nlp_app.cli:smoke_cmd"
     train = "nlp_app.cli:train_cmd"
     eval = "nlp_app.cli:eval_cmd"

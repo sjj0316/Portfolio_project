@@ -77,9 +77,9 @@ def _ensure_dirs(cfg: Cfg) -> None:
     (cfg.reports_dir / "figures").mkdir(parents=True, exist_ok=True)
 
 
-def _run(cmd: list[str]) -> int:
+def _run(cmd: list[str], env: dict[str, str] | None = None) -> int:
     print("$", " ".join(cmd))
-    return subprocess.call(cmd)
+    return subprocess.call(cmd, env=env)
 
 
 def _maybe_import(module: str) -> Any:
@@ -108,6 +108,19 @@ def _parse_profile(argv: list[str]) -> tuple[str | None, list[str]]:
     return None, argv
 
 
+def _parse_predict_args(argv: list[str]):
+    from argparse import ArgumentParser
+
+    ap = ArgumentParser(prog="predict")
+    ap.add_argument("--prompt", required=True, help="Text prompt.")
+    ap.add_argument("--model", default="hf-internal-testing/tiny-stable-diffusion-pipe", help="HF model id.")
+    ap.add_argument("--steps", type=int, default=4, help="Number of inference steps.")
+    ap.add_argument("--seed", type=int, default=0, help="Seed (0 = random).")
+    ap.add_argument("--out", default="", help="Output file name (png).")
+    ap.add_argument("--no-safety-checker", action="store_true", help="Disable safety checker for tiny models.")
+    return ap.parse_args(argv)
+
+
 def setup_cmd() -> None:
     """Print the recommended setup commands (uv)."""
     print("Recommended setup:")
@@ -120,17 +133,23 @@ def setup_cmd() -> None:
 
 def lint_cmd() -> None:
     """Run ruff lint (requires dev extra)."""
-    _run(["python", "-m", "ruff", "check", "."])
+    import sys
+    _run([sys.executable, "-m", "ruff", "check", "."])
 
 
 def format_cmd() -> None:
     """Run ruff format (requires dev extra)."""
-    _run(["python", "-m", "ruff", "format", "."])
+    import sys
+    _run([sys.executable, "-m", "ruff", "format", "."])
 
 
 def test_cmd() -> None:
     """Run pytest (requires dev extra)."""
-    _run(["python", "-m", "pytest"])
+    import sys
+    env = os.environ.copy()
+    src_path = str(project_root() / "src")
+    env["PYTHONPATH"] = src_path + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+    _run([sys.executable, "-m", "pytest"], env=env)
 
 
 def smoke_cmd() -> None:
@@ -153,6 +172,36 @@ def smoke_cmd() -> None:
     except Exception:
         print("[info] torch not installed (this is OK for smoke).")
     print("[done] smoke")
+
+
+def check_cmd() -> None:
+    """Preflight check: config/paths, optional network+SSL, optional CUDA."""
+    import sys
+    import platform
+    import urllib.request
+
+    prof, _ = _parse_profile(sys.argv[1:])
+    cfg = load_cfg(prof)
+    _ensure_dirs(cfg)
+    print(f"[ok] profile={cfg.profile}")
+    print(f"[ok] data_dir={cfg.data_dir}")
+    print(f"[ok] models_dir={cfg.models_dir}")
+    print(f"[ok] outputs_dir={cfg.outputs_dir}")
+    print(f"[ok] reports_dir={cfg.reports_dir}")
+    print(f"[ok] python={platform.python_version()} os={platform.system()}")
+    try:
+        with urllib.request.urlopen("https://pypi.org/simple/", timeout=5) as r:
+            print(f"[ok] network=https ssl=yes status={r.status}")
+    except Exception as e:
+        print(f"[warn] network/ssl check failed: {e}")
+    try:
+        import torch  # type: ignore
+        print(f"[ok] torch={torch.__version__} cuda_available={torch.cuda.is_available()}")
+        if torch.cuda.is_available():
+            print(f"[ok] cuda_device={torch.cuda.get_device_name(0)}")
+    except Exception:
+        print("[info] torch not installed (this is OK for check).")
+    print("[done] check")
 
 
 def clean_cmd() -> None:
@@ -201,19 +250,11 @@ def predict_cmd() -> None:
     Requires: `uv sync --extra diffusers`
     """
     import sys
-    from argparse import ArgumentParser
-
     prof, argv = _parse_profile(sys.argv[1:])
     cfg = load_cfg(prof)
     _ensure_dirs(cfg)
 
-    ap = ArgumentParser(prog="predict")
-    ap.add_argument("--prompt", required=True, help="Text prompt.")
-    ap.add_argument("--model", default="hf-internal-testing/tiny-stable-diffusion-pipe", help="HF model id.")
-    ap.add_argument("--steps", type=int, default=4, help="Number of inference steps.")
-    ap.add_argument("--seed", type=int, default=0, help="Seed (0 = random).")
-    ap.add_argument("--out", default="", help="Output file name (png).")
-    args = ap.parse_args(argv)
+    args = _parse_predict_args(argv)
 
     # Lazy imports
     _maybe_import("torch")
@@ -226,6 +267,10 @@ def predict_cmd() -> None:
 
     # Load pipeline (will download if not cached)
     pipe = DiffusionPipeline.from_pretrained(args.model)
+    if args.no_safety_checker:
+        pipe.safety_checker = None
+        if hasattr(pipe, "requires_safety_checker"):
+            pipe.requires_safety_checker = False
     pipe = pipe.to(device)
 
     gen = None

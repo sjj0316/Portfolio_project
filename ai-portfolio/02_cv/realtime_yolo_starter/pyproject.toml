@@ -18,6 +18,7 @@ yolo = ["ultralytics>=8.3.0", "opencv-python>=4.10.0.84"]
     lint = "cv_app.cli:lint_cmd"
     format = "cv_app.cli:format_cmd"
     test = "cv_app.cli:test_cmd"
+    check = "cv_app.cli:check_cmd"
     smoke = "cv_app.cli:smoke_cmd"
     train = "cv_app.cli:train_cmd"
     eval = "cv_app.cli:eval_cmd"

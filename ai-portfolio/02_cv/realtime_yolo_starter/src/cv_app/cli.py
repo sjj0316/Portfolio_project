@@ -77,9 +77,9 @@ def _ensure_dirs(cfg: Cfg) -> None:
     (cfg.reports_dir / "figures").mkdir(parents=True, exist_ok=True)
 
 
-def _run(cmd: list[str]) -> int:
+def _run(cmd: list[str], env: dict[str, str] | None = None) -> int:
     print("$", " ".join(cmd))
-    return subprocess.call(cmd)
+    return subprocess.call(cmd, env=env)
 
 
 def _maybe_import(module: str) -> Any:
@@ -120,17 +120,23 @@ def setup_cmd() -> None:
 
 def lint_cmd() -> None:
     """Run ruff lint (requires dev extra)."""
-    _run(["python", "-m", "ruff", "check", "."])
+    import sys
+    _run([sys.executable, "-m", "ruff", "check", "."])
 
 
 def format_cmd() -> None:
     """Run ruff format (requires dev extra)."""
-    _run(["python", "-m", "ruff", "format", "."])
+    import sys
+    _run([sys.executable, "-m", "ruff", "format", "."])
 
 
 def test_cmd() -> None:
     """Run pytest (requires dev extra)."""
-    _run(["python", "-m", "pytest"])
+    import sys
+    env = os.environ.copy()
+    src_path = str(project_root() / "src")
+    env["PYTHONPATH"] = src_path + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+    _run([sys.executable, "-m", "pytest"], env=env)
 
 
 def smoke_cmd() -> None:
@@ -153,6 +159,36 @@ def smoke_cmd() -> None:
     except Exception:
         print("[info] torch not installed (this is OK for smoke).")
     print("[done] smoke")
+
+
+def check_cmd() -> None:
+    """Preflight check: config/paths, optional network+SSL, optional CUDA."""
+    import sys
+    import platform
+    import urllib.request
+
+    prof, _ = _parse_profile(sys.argv[1:])
+    cfg = load_cfg(prof)
+    _ensure_dirs(cfg)
+    print(f"[ok] profile={cfg.profile}")
+    print(f"[ok] data_dir={cfg.data_dir}")
+    print(f"[ok] models_dir={cfg.models_dir}")
+    print(f"[ok] outputs_dir={cfg.outputs_dir}")
+    print(f"[ok] reports_dir={cfg.reports_dir}")
+    print(f"[ok] python={platform.python_version()} os={platform.system()}")
+    try:
+        with urllib.request.urlopen("https://pypi.org/simple/", timeout=5) as r:
+            print(f"[ok] network=https ssl=yes status={r.status}")
+    except Exception as e:
+        print(f"[warn] network/ssl check failed: {e}")
+    try:
+        import torch  # type: ignore
+        print(f"[ok] torch={torch.__version__} cuda_available={torch.cuda.is_available()}")
+        if torch.cuda.is_available():
+            print(f"[ok] cuda_device={torch.cuda.get_device_name(0)}")
+    except Exception:
+        print("[info] torch not installed (this is OK for check).")
+    print("[done] check")
 
 
 def clean_cmd() -> None:

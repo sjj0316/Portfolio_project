@@ -1,4 +1,8 @@
-from cv_app.cli import load_cfg
+from cv_app import cli
 
 def test_load_cfg_local():
-    assert load_cfg("local").profile == "local"
+    assert cli.load_cfg("local").profile == "local"
+
+
+def test_check_cmd_exists():
+    assert callable(cli.check_cmd)

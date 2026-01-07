@@ -18,6 +18,7 @@ diffusers = ["torch>=2.4.0", "diffusers>=0.33.0", "transformers>=4.44.0", "accel
     lint = "gen_app.cli:lint_cmd"
     format = "gen_app.cli:format_cmd"
     test = "gen_app.cli:test_cmd"
+    check = "gen_app.cli:check_cmd"
     smoke = "gen_app.cli:smoke_cmd"
     train = "gen_app.cli:train_cmd"
     eval = "gen_app.cli:eval_cmd"
