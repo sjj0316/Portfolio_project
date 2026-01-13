@@ -1,0 +1,3 @@
+# Paths can be absolute or relative to project root.
+outputs_dir: outputs
+reports_dir: reports

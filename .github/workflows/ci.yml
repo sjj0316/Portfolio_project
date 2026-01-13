@@ -25,6 +25,9 @@ jobs:
           - name: image_gen
             path: ai-portfolio/03_image_gen/image_gen_starter
             extras: "dev"
+          - name: mcp_sentiment
+            path: ai-portfolio/04_agents_mcp/mcp_sentiment_server
+            extras: "dev"
 
     steps:
       - uses: actions/checkout@v5

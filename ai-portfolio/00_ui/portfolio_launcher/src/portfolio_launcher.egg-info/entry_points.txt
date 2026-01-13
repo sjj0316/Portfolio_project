@@ -1,0 +1,8 @@
+[console_scripts]
+clean = launcher_app.cli:clean_cmd
+format = launcher_app.cli:format_cmd
+lint = launcher_app.cli:lint_cmd
+predict = launcher_app.cli:predict_cmd
+setup = launcher_app.cli:setup_cmd
+smoke = launcher_app.cli:smoke_cmd
+test = launcher_app.cli:test_cmd
