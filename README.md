@@ -1,6 +1,6 @@
 # AI Portfolio Monorepo (uv + Codex)
 
-Detailed notes to understand and run the whole portfolio. Three small AI demos plus one tabular starter live side by side, each with its own isolated `uv` environment and a stable, English console-script contract that Codex can follow.
+Detailed notes to understand and run the whole portfolio. Four AI demos plus a UI launcher and two MCP servers live side by side, each with its own isolated `uv` environment and a stable, English console-script contract that Codex can follow.
 
 ---
 
@@ -20,6 +20,7 @@ Detailed notes to understand and run the whole portfolio. Three small AI demos p
   - 03_image_gen/image_gen_starter
   - 04_tabular/tabular_classification_starter
   - 04_agents_mcp/mcp_sentiment_server
+  - 04_agents_mcp/mcp_yolo_server
 - notebooks/colab_runner.ipynb (pull + run a project on Colab GPU from .py sources)
 - AGENTS.md (global Codex rules and guardrails)
 - .github/ (PR template and CI configs for Codex review)
@@ -37,7 +38,11 @@ Each project folder repeats the same pattern: its own `AGENTS.md`, `pyproject.to
 
 ## How the command contract works
 - Console scripts live under `[project.scripts]` in each `pyproject.toml`. Stable verbs: `smoke`, `train`, `eval`, `predict`, `lint`, `test`, `clean`, `setup`.
-- Every command accepts `--profile local|colab` (or env `PROFILE`). The profile chooses which YAML config under `configs/` is loaded.
+- CLI contract scope:
+  - Demo projects: `smoke`, `train`, `eval`, `predict` (+ `lint/test/format` when dev extra is installed).
+  - MCP servers: `smoke`, `serve` (profile flag is accepted but unused; see MCP READMEs).
+  - UI launcher: `predict` opens the Gradio UI.
+- Every command accepts `--profile local|colab` (or env `PROFILE`) on demo projects. The profile chooses which YAML config under `configs/` is loaded.
 - Config keys: `data_dir`, `models_dir`, `outputs_dir`, `reports_dir`. Relative paths are resolved from the project root; absolute paths are respected. Missing config files raise a clear error before heavy work starts.
 - Helper utilities in each `cli.py` create those folders automatically so repeated runs do not fail on missing directories.
 - Heavy dependencies are optional extras; if a module is missing, commands fail fast with an install hint.

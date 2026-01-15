@@ -42,8 +42,8 @@ uv run serve --transport stdio
     - Ensure `uv sync --extra yolo` before attempting real detections.
 
     ## Profiles (local vs colab)
-    - `--profile local|colab` (or env `PROFILE=local|colab`)
-    - Edit `configs/local.yaml` and `configs/colab.yaml` if you need custom paths.
+    - `--profile local|colab` (or env `PROFILE=local|colab`) is accepted but currently unused (placeholder).
+    - `configs/local.yaml` and `configs/colab.yaml` are kept for repo consistency.
 
     ## Notes for Codex
     - See `AGENTS.md` for the command contract and repo rules.

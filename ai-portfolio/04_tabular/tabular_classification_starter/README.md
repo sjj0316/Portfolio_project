@@ -46,3 +46,19 @@ uv run predict --profile local --features "0.5,1.0,0.2"
 
     ## Notes for Codex
     - See `AGENTS.md` for the command contract and repo rules.
+
+## Preflight (first run)
+- `uv sync`
+- Optional sklearn baseline: `uv sync --extra ml`
+- Confirm `configs/local.yaml` paths are writable.
+
+## Colab checklist
+- Update `configs/colab.yaml` to Drive paths.
+- Run with `PROFILE=colab uv run smoke`.
+
+## Portfolio story
+- Problem: classify small tabular inputs with minimal setup.
+- Approach: sklearn baseline or pure-Python fallback.
+- Result: `reports/eval_report.json` after `eval`.
+- Limitations: toy dataset, no feature engineering.
+- Next: add data loading and feature pipeline.

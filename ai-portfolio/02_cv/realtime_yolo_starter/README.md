@@ -43,3 +43,19 @@ uv run predict --profile local --source data/raw/sample.mp4 --model yolo11n.pt
 
     ## Notes for Codex
     - See `AGENTS.md` for the command contract and repo rules.
+
+## Preflight (first run)
+- `uv sync`
+- Install YOLO extra: `uv sync --extra yolo`
+- Confirm camera permission if using `--source 0`.
+
+## Colab checklist
+- Update `configs/colab.yaml` to Drive paths.
+- Run with `PROFILE=colab uv run smoke`.
+
+## Portfolio story
+- Problem: real-time object detection for webcam/video.
+- Approach: YOLO inference via Ultralytics with lazy imports.
+- Result: rendered outputs under `outputs/yolo/`.
+- Limitations: no training/eval pipeline included.
+- Next: add dataset training and evaluation scripts.
