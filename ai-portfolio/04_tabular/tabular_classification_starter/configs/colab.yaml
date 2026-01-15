@@ -1,0 +1,10 @@
+# Example Colab paths (edit to match your Drive mount).
+# data_dir: /content/drive/MyDrive/ai-data/tabular/data
+# models_dir: /content/drive/MyDrive/ai-data/tabular/models
+# outputs_dir: /content/drive/MyDrive/ai-data/tabular/outputs
+# reports_dir: /content/drive/MyDrive/ai-data/tabular/reports
+
+data_dir: data
+models_dir: models
+outputs_dir: outputs
+reports_dir: reports

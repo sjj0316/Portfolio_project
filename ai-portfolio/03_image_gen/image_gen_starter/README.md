@@ -43,3 +43,19 @@ uv run predict --profile local --model hf-internal-testing/tiny-stable-diffusion
 
     ## Notes for Codex
     - See `AGENTS.md` for the command contract and repo rules.
+
+## Preflight (first run)
+- `uv sync`
+- Install Diffusers extra: `uv sync --extra diffusers`
+- Ensure `configs/local.yaml` outputs path is writable.
+
+## Colab checklist
+- Update `configs/colab.yaml` to Drive paths.
+- Run with `PROFILE=colab uv run smoke`.
+
+## Portfolio story
+- Problem: generate images from text prompts.
+- Approach: Diffusers pipeline with a tiny default model.
+- Result: images saved under `outputs/images/`.
+- Limitations: tiny model quality, no evaluation metrics.
+- Next: add model selection guidance and quality metrics.

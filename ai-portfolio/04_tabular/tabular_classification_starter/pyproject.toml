@@ -1,0 +1,35 @@
+[project]
+    name = "tabular-classification-starter"
+    version = "0.1.0"
+    description = "Portfolio starter with Codex-friendly command contract (uv + pyproject scripts)."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = [
+      "pyyaml>=6.0.1",
+    ]
+
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0"]
+ml = ["scikit-learn>=1.6.0"]
+
+    [project.scripts]
+    setup = "tab_app.cli:setup_cmd"
+    lint = "tab_app.cli:lint_cmd"
+    format = "tab_app.cli:format_cmd"
+    test = "tab_app.cli:test_cmd"
+    smoke = "tab_app.cli:smoke_cmd"
+    train = "tab_app.cli:train_cmd"
+    eval = "tab_app.cli:eval_cmd"
+    predict = "tab_app.cli:predict_cmd"
+    clean = "tab_app.cli:clean_cmd"
+
+    [tool.pytest.ini_options]
+    testpaths = ["tests"]
+    addopts = "-q"
+
+    [tool.ruff]
+    line-length = 100
+
+[tool.uv]
+package = true

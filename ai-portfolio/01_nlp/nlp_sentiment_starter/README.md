@@ -60,3 +60,20 @@ uv run predict --profile local --text "this is surprisingly good"
 
     ## Notes for Codex
     - See `AGENTS.md` for the command contract and repo rules.
+
+## Preflight (first run)
+- `uv sync`
+- Optional baseline: `uv sync --extra ml`
+- Optional Transformers: `uv sync --extra transformers`
+- Confirm `configs/local.yaml` paths are writable.
+
+## Colab checklist
+- Update `configs/colab.yaml` to Drive paths.
+- Run with `PROFILE=colab uv run smoke`.
+
+## Portfolio story
+- Problem: classify short text sentiment quickly.
+- Approach: lexicon fallback + optional sklearn baseline.
+- Result: `reports/eval_report.json` after `eval`.
+- Limitations: tiny in-code samples, no real dataset.
+- Next: add dataset loader and metrics.

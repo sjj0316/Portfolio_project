@@ -19,6 +19,7 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -40,10 +41,12 @@ class Cfg:
 
 def project_root() -> Path:
     # src/<pkg>/cli.py -> <root>
+    # YOLO 스타터의 루트 폴더 위치를 일관되게 계산
     return Path(__file__).resolve().parents[2]
 
 
 def load_cfg(profile: str | None) -> Cfg:
+    # 프로필별 설정 파일을 읽고 경로를 절대경로로 정규화
     prof = profile or os.getenv("PROFILE", "local")
     cfg_file = project_root() / "configs" / f"{prof}.yaml"
     if not cfg_file.exists():
@@ -70,6 +73,7 @@ def load_cfg(profile: str | None) -> Cfg:
 # Small utilities
 # -----------------------------
 def _ensure_dirs(cfg: Cfg) -> None:
+    # 실행 전 필요한 경로를 준비하여 I/O 오류를 예방
     cfg.data_dir.mkdir(parents=True, exist_ok=True)
     cfg.models_dir.mkdir(parents=True, exist_ok=True)
     cfg.outputs_dir.mkdir(parents=True, exist_ok=True)
@@ -79,6 +83,8 @@ def _ensure_dirs(cfg: Cfg) -> None:
 
 def _run(cmd: list[str]) -> int:
     print("$", " ".join(cmd))
+    if cmd and cmd[0] == "python":
+        cmd = [sys.executable, *cmd[1:]]
     return subprocess.call(cmd)
 
 

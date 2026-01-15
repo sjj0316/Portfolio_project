@@ -1,0 +1,31 @@
+[project]
+    name = "portfolio-launcher"
+    version = "0.1.0"
+    description = "UI launcher for the AI portfolio projects."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = []
+
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0"]
+web = ["gradio>=4.0.0"]
+
+    [project.scripts]
+    setup = "launcher_app.cli:setup_cmd"
+    lint = "launcher_app.cli:lint_cmd"
+    format = "launcher_app.cli:format_cmd"
+    test = "launcher_app.cli:test_cmd"
+    smoke = "launcher_app.cli:smoke_cmd"
+    predict = "launcher_app.cli:predict_cmd"
+    clean = "launcher_app.cli:clean_cmd"
+
+    [tool.pytest.ini_options]
+    testpaths = ["tests"]
+    addopts = "-q"
+
+    [tool.ruff]
+    line-length = 100
+
+[tool.uv]
+package = true

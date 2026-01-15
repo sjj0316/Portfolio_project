@@ -1,0 +1,32 @@
+[project]
+    name = "mcp-sentiment-server"
+    version = "0.1.0"
+    description = "Sentiment MCP server starter with FastMCP and Codex-friendly commands."
+    readme = "README.md"
+    requires-python = ">=3.12"
+    dependencies = [
+      "pyyaml>=6.0.1",
+      "mcp>=0.3.0",
+    ]
+
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "ruff>=0.8.0", "mypy>=1.12.0", "types-PyYAML>=6.0.12.20240917"]
+
+    [project.scripts]
+    setup = "mcp_sentiment_server.cli:setup_cmd"
+    lint = "mcp_sentiment_server.cli:lint_cmd"
+    format = "mcp_sentiment_server.cli:format_cmd"
+    test = "mcp_sentiment_server.cli:test_cmd"
+    smoke = "mcp_sentiment_server.cli:smoke"
+    serve = "mcp_sentiment_server.cli:serve"
+
+    [tool.pytest.ini_options]
+    testpaths = ["tests"]
+    addopts = "-q"
+
+    [tool.ruff]
+    line-length = 100
+
+[tool.uv]
+package = true

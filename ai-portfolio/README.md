@@ -6,9 +6,13 @@ This is a multi-project starter designed for:
 - Keeping each project as an independent root (easy to split into separate repos later)
 
 ## Projects
+- `00_ui/portfolio_launcher`
 - `01_nlp/nlp_sentiment_starter`
 - `02_cv/realtime_yolo_starter`
 - `03_image_gen/image_gen_starter`
+- `04_tabular/tabular_classification_starter`
+- `04_agents_mcp/mcp_sentiment_server`
+- `04_agents_mcp/mcp_yolo_server`
 
 Each project contains:
 - `AGENTS.md` (Codex rules)

@@ -1,0 +1,6 @@
+# Example Colab paths (edit to match your Drive mount).
+# outputs_dir: /content/drive/MyDrive/ai-data/mcp/outputs
+# reports_dir: /content/drive/MyDrive/ai-data/mcp/reports
+
+outputs_dir: outputs
+reports_dir: reports

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.dist/
+build/
+.cache/
+.pytest_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+.env
+.env.*
+
+# Data / artifacts (keep big stuff out of git)
+outputs/
+runs/
+reports/figures/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
