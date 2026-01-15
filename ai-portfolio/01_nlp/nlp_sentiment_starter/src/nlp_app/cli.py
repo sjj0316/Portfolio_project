@@ -19,6 +19,7 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -82,6 +83,8 @@ def _ensure_dirs(cfg: Cfg) -> None:
 
 def _run(cmd: list[str]) -> int:
     print("$", " ".join(cmd))
+    if cmd and cmd[0] == "python":
+        cmd = [sys.executable, *cmd[1:]]
     return subprocess.call(cmd)
 
 

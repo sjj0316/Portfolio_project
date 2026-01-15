@@ -20,17 +20,17 @@ def setup_cmd() -> None:
 
 def lint_cmd() -> None:
     """Run ruff lint (requires dev extra)."""
-    subprocess.call(["python", "-m", "ruff", "check", "."])
+    subprocess.call([sys.executable, "-m", "ruff", "check", "."])
 
 
 def format_cmd() -> None:
     """Run ruff format (requires dev extra)."""
-    subprocess.call(["python", "-m", "ruff", "format", "."])
+    subprocess.call([sys.executable, "-m", "ruff", "format", "."])
 
 
 def test_cmd() -> None:
     """Run pytest (requires dev extra)."""
-    subprocess.call(["python", "-m", "pytest"])
+    subprocess.call([sys.executable, "-m", "pytest"])
 
 
 def _parse_args(argv: list[str]) -> argparse.Namespace:

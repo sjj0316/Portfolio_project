@@ -12,6 +12,7 @@ import os
 import pickle
 import shutil
 import subprocess
+import sys
 from argparse import ArgumentParser
 from dataclasses import dataclass
 from pathlib import Path
@@ -78,6 +79,8 @@ def _ensure_dirs(cfg: Cfg) -> None:
 def _run(cmd: list[str]) -> int:
     # 명령 실행을 로그로 보여주고 반환 코드 전달
     print("$", " ".join(cmd))
+    if cmd and cmd[0] == "python":
+        cmd = [sys.executable, *cmd[1:]]
     return subprocess.call(cmd)
 
 

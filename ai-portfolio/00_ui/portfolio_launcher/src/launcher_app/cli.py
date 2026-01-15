@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import subprocess
 import threading
+import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -326,15 +327,15 @@ def setup_cmd() -> None:
 
 
 def lint_cmd() -> None:
-    subprocess.call(["python", "-m", "ruff", "check", "."])
+    subprocess.call([sys.executable, "-m", "ruff", "check", "."])
 
 
 def format_cmd() -> None:
-    subprocess.call(["python", "-m", "ruff", "format", "."])
+    subprocess.call([sys.executable, "-m", "ruff", "format", "."])
 
 
 def test_cmd() -> None:
-    subprocess.call(["python", "-m", "pytest"])
+    subprocess.call([sys.executable, "-m", "pytest"])
 
 
 def clean_cmd() -> None:
